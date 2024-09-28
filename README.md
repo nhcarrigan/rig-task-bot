@@ -1,20 +1,10 @@
-# New Repository Template
+# Retro Island Gaming Task Bot
 
-This template contains all of our basic files for a new GitHub repository. There is also a handy workflow that will create an issue on a new repository made from this template, with a checklist for the steps we usually take in setting up a new repository.
-
-If you're starting a Node.JS project with TypeScript, we have a [specific template](https://github.com/naomi-lgbt/nodejs-typescript-template) for that purpose.
-
-## Readme
-
-Delete all of the above text (including this line), and uncomment the below text to use our standard readme template.
-
-<!-- # Project Name
-
-Project Description
+This application serves as a ToDo/Trello feature built into a Discord bot.
 
 ## Live Version
 
-This page is currently deployed. [View the live website.]
+This app is currently not live.
 
 ## Feedback and Bugs
 
