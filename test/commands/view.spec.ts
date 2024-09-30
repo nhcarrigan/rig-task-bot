@@ -103,8 +103,74 @@ describe("view command", () => {
           fields:      [
             { inline: true, name: "Priority", value: "critical" },
             { inline: true, name: "Completed", value: "No" },
+            {
+              inline: true,
+              name:   "Due Date",
+              value:  new Date("2021-10-10").toLocaleDateString("en-US"),
+            },
             { name: "Tag", value: "discord" },
             { name: "Assignee", value: "<@123>" },
+          ],
+          title: "Task 1",
+        },
+      ],
+    });
+  });
+
+  it("should execute correctly with fallback values", async() => {
+    expect.assertions(3);
+    const mockBot = {
+      database: {
+        tasks: {
+          findUnique: vi.fn().mockReturnValue({
+            assignees:   [ ],
+            completed:   false,
+            deleted:     false,
+            description: "Task 1 description",
+            dueAt:       new Date("2021-10-10"),
+            numericalId: 1,
+            priority:    "critical",
+            tags:        [ ],
+            title:       "Task 1",
+          }),
+        },
+      },
+    } as never;
+    const mockInteraction = {
+      deferReply: vi.fn(),
+      editReply:  vi.fn(),
+      options:    { getInteger: vi.fn().mockReturnValue(1) },
+    } as never;
+    await view.run(mockBot, mockInteraction);
+    expect(
+      mockInteraction.deferReply,
+      "should defer the reply",
+    ).toHaveBeenCalledWith({ ephemeral: true });
+    expect(
+      mockBot.database.tasks.findUnique,
+      "should query database",
+    ).toHaveBeenCalledWith({
+      where: {
+        numericalId: 1,
+      },
+    });
+    expect(
+      mockInteraction.editReply,
+      "should call editReply",
+    ).toHaveBeenCalledWith({
+      embeds: [
+        {
+          description: "Task 1 description",
+          fields:      [
+            { inline: true, name: "Priority", value: "critical" },
+            { inline: true, name: "Completed", value: "No" },
+            {
+              inline: true,
+              name:   "Due Date",
+              value:  new Date("2021-10-10").toLocaleDateString("en-US"),
+            },
+            { name: "Tag", value: "No tags." },
+            { name: "Assignee", value: "No assignees." },
           ],
           title: "Task 1",
         },
@@ -159,6 +225,11 @@ describe("view command", () => {
           fields:      [
             { inline: true, name: "Priority", value: "critical" },
             { inline: true, name: "Completed", value: "Yes" },
+            {
+              inline: true,
+              name:   "Due Date",
+              value:  new Date("2021-10-10").toLocaleDateString("en-US"),
+            },
             { name: "Tag", value: "discord" },
             { name: "Assignee", value: "<@123>" },
           ],

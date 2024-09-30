@@ -20,6 +20,7 @@ export const view: Command = {
         setMinValue(1).
         setRequired(true);
     }),
+  // eslint-disable-next-line max-lines-per-function
   run: async(bot, interaction) => {
     try {
       await interaction.deferReply({ ephemeral: true });
@@ -28,34 +29,66 @@ export const view: Command = {
         where: { numericalId },
       });
       if (!task) {
-        await interaction.editReply({ content: `Task ${String(numericalId)} not found.` });
+        await interaction.editReply({
+          content: `Task ${String(numericalId)} not found.`,
+        });
         return;
       }
       if (task.deleted) {
-        await interaction.editReply({ content: `Task ${String(numericalId)} has been deleted.` });
+        await interaction.editReply({
+          content: `Task ${String(numericalId)} has been deleted.`,
+        });
         return;
       }
-      await interaction.editReply({ embeds: [
-        {
-          description: task.description,
-          fields:      [
-            { inline: true, name: "Priority", value: task.priority },
-            { inline: true, name:   "Completed", value:  task.completed
-              ? "Yes"
-              : "No" },
-            { name: "Tag", value: task.tags.join(", ") },
-            { name:  "Assignee", value: task.assignees.map((id) => {
-              return `<@${id}>`;
-            }).join(", ") },
-
-          ],
-          title: `Task ${String(task.numericalId)}`,
-        },
-      ] });
+      await interaction.editReply({
+        embeds: [
+          {
+            description: task.description,
+            fields:      [
+              { inline: true, name: "Priority", value: task.priority },
+              {
+                inline: true,
+                name:   "Completed",
+                value:  task.completed
+                  ? "Yes"
+                  : "No",
+              },
+              {
+                inline: true,
+                name:   "Due Date",
+                value:  task.dueAt.toLocaleDateString("en-US"),
+              },
+              {
+                name:  "Tag",
+                value: task.tags.length > 0
+                  ? task.tags.join(", ")
+                  : "No tags.",
+              },
+              {
+                name: "Assignee",
+                value:
+                  task.assignees.length > 0
+                    ? task.assignees.
+                      map((id) => {
+                        return `<@${id}>`;
+                      }).
+                      join(", ")
+                    : "No assignees.",
+              },
+            ],
+            title: `Task ${String(task.numericalId)}`,
+          },
+        ],
+      });
     } catch (error) {
-      await errorHandler(bot, "view command", error, interaction.replied
-        ? interaction.editReply.bind(interaction)
-        : interaction.reply.bind(interaction));
+      await errorHandler(
+        bot,
+        "view command",
+        error,
+        interaction.replied
+          ? interaction.editReply.bind(interaction)
+          : interaction.reply.bind(interaction),
+      );
     }
   },
 };
