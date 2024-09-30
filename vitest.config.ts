@@ -8,7 +8,10 @@ export default defineConfig({
       all: true,
       allowExternal: true,
       thresholds: {
-        lines: 0,
+        lines: 100,
+        statements: 100,
+        branches: 100,
+        functions: 100,
       },
     },
   },

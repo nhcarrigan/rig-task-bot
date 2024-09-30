@@ -6,21 +6,32 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "dev": "op run --env-file='./dev.env' --no-masking -- node prod/index.js",
     "format": "eslint src test --fix --max-warnings 0",
     "lint": "eslint src test --max-warnings 0",
     "start": "op run --env-file='./prod.env' -- node prod/index.js",
-    "test": "vitest run --coverage"
+    "test": "rm -rf prod && vitest run --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@fastify/pre-commit": "2.1.0",
     "@nhcarrigan/eslint-config": "5.0.0-rc2",
     "@nhcarrigan/typescript-config": "4.0.0",
     "@types/node": "22.7.4",
     "@vitest/coverage-istanbul": "2.1.1",
     "eslint": "9.11.1",
+    "prisma": "5.20.0",
     "typescript": "5.6.2",
     "vitest": "2.1.1"
-  }
+  },
+  "dependencies": {
+    "@prisma/client": "5.20.0",
+    "discord.js": "14.16.2"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ]
 }
