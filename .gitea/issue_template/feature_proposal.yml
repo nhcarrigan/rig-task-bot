@@ -1,8 +1,8 @@
-name: 🐛 Bug Report
-description: Something isn't working as expected? Let us know!
-title: '[BUG] - '
+name: 💭 Feature Proposal
+description: Have an idea for how we can improve? Share it here!
+title: '[FEAT] - '
 labels:
-  - "🚦 status: awaiting triage"
+  - "status/awaiting triage"
 body:
   - type: checkboxes
     id: attestations
@@ -25,45 +25,22 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: "Describe your Issue:"
-      description: A clear and concise description of what the bug is.
+      label: "Describe your Idea:"
+      description: A clear and concise description of the feature you would like added.
+      validations:
+        required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: "What problem does this feature solve?"
+      description: Why are you requesting this feature? How would it improve your experience with the product?
       validations:
         required: true
   - type: dropdown
-    id: reproduce
     attributes:
-      label: Can you reproduce this issue?
+      label: Are you willing and able to contribute this feature?
       options:
         - Yes
         - No
     validations:
       required: true
-  - type: textarea
-    id: reproduction
-    attributes:
-      label: "Steps to Reproduce:"
-      description: Steps to reproduce the behavior.
-  - type: input
-    id: os
-    attributes:
-      label: "Operating System:"
-      description: The operating system you are using, including the version/build number.
-    validations:
-      required: true
-# Remove this section for non-web apps.
-  - type: input
-    id: browser
-    attributes:
-      label: "Browser:"
-      description: The browser you are using, including the version number.
-    validations:
-      required: true
-  - type: dropdown
-    attributes:
-      label: Are you willing and able to contribute a fix?
-      options:
-        - Yes
-        - No
-    validations:
-      required: true
-

@@ -2,7 +2,7 @@ name: ❓ Other Issue
 description: I have something that is neither a bug nor a feature request.
 title: '[OTHER] - '
 labels:
-  - "🚦 status: awaiting triage"
+  - "status/awaiting triage"
 body:
   - type: checkboxes
     id: attestations
